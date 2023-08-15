@@ -1,0 +1,49 @@
+spring:
+  application:
+    name: ZuulProxy
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:9000/eureka
+    register-with-eureka: false
+    fetch-registry: true
+  instance:
+    hostname: localhost
+
+ribbon:
+  ConnectTimeout: 30000
+  ReadTimeout: 990000
+  maxAutoRetries: 1
+  MaxAutoRetriesNextServer: 2
+  eureka:
+    enabled: true
+
+zuul:
+  ignoredHeaders: Access-Control-Allow-Credentials, Access-Control-Allow-Origin
+  ignoredServices: "*"
+  routes:
+    service-2:
+      path: /service/**
+      service-id: service-2
+      strip-prefix: false
+
+service-2:
+  ribbon:
+    listOfServers: http://localhost:10260/service, http://localhost:10261/service
+
+logging:
+  level:
+    org.springframework.cloud.netflix: TRACE
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          strategy: THREAD
+          thread:
+            timeoutInMilliseconds: 20000
+
+server:
+  port: 10980
