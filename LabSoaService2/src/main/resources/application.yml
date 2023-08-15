@@ -1,0 +1,89 @@
+spring:
+  config:
+    activate:
+      on-profile: instance_1
+  application:
+    name: service-2
+  mvc:
+    path match:
+      matching-strategy: ant_path_matcher
+  cloud:
+    loadbalancer:
+      enabled: false
+
+eureka:
+  instance:
+    hostname: Service2
+  client:
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://localhost:9000/eureka
+
+server:
+  port: 10260
+  ssl:
+    key-store: lab.jks
+    key-store-password: spring
+    keyStoreType: PKCS12
+    keyAlias: server
+  shutdown: graceful
+  servlet:
+    context-path: /service
+
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 30000
+        readTimeout: 30000
+        loggerLevel: basic
+
+connect:
+  service-one:
+    timeout: 30000
+    url: https://localhost:10100/
+---
+spring:
+  config:
+    activate:
+      on-profile: instance_2
+  application:
+    name: service-2
+  mvc:
+    path match:
+      matching-strategy: ant_path_matcher
+  cloud:
+    loadbalancer:
+      enabled: false
+
+eureka:
+  instance:
+    hostname: Service2
+  client:
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://localhost:9000/eureka
+
+server:
+  port: 10261
+    ssl:
+      key-store: lab.jks
+      key-store-password: spring
+      keyStoreType: PKCS12
+      keyAlias: server
+  shutdown: graceful
+  servlet:
+    context-path: /service
+
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 30000
+        readTimeout: 30000
+        loggerLevel: basic
+
+connect:
+  service-one:
+    timeout: 30000
+    url: https://localhost:10100/

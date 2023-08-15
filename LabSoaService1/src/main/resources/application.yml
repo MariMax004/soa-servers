@@ -1,0 +1,73 @@
+spring:
+  config:
+    activate:
+      on-profile: instance_1
+  application:
+    name: service-1
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+      discovery:
+        instance-id: app-${server.port}
+        serviceName: ${spring.application.name}-${server.port}
+        healthCheckUrl: http://localhost:${server.port}/health
+        healthCheckInterval: 15s
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  jpa:
+    database: POSTGRESQL
+  datasource:
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:30160/mari
+    username: mari
+    password: 2rnKmkJG
+#    url: jdbc:postgresql://localhost:5432/labSoa
+#    username: postgres
+#    password: 2rnKmkJG
+  flyway:
+    locations: classpath:db/migration, classpath:db/data
+    baselineOnMigrate: true
+    validateOnMigrate: false
+
+server:
+  port: 10160
+  shutdown: graceful
+---
+spring:
+  config:
+    activate:
+      on-profile: instance_2
+  application:
+    name: service-1
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+      discovery:
+        instance-id: app-${server.port}
+        serviceName: ${spring.application.name}-${server.port}
+        healthCheckUrl: http://localhost:${server.port}/health
+        healthCheckInterval: 15s
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  jpa:
+    database: POSTGRESQL
+  datasource:
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:30160/mari
+    username: mari
+    password: 2rnKmkJG
+#    url: jdbc:postgresql://localhost:5432/labSoa
+#    username: postgres
+#    password: 2rnKmkJG
+  flyway:
+    locations: classpath:db/migration, classpath:db/data
+    baselineOnMigrate: true
+    validateOnMigrate: false
+
+server:
+  port: 10161
+  shutdown: graceful
